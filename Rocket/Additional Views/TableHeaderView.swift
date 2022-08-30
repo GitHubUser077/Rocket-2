@@ -32,7 +32,6 @@ class TableHeaderView: UIView {
         addSubview(label)
         addSubview(button)
         
-
         
         NSLayoutConstraint.activate([
             label.topAnchor.constraint(equalTo: self.topAnchor, constant: 15),

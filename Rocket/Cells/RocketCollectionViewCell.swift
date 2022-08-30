@@ -9,9 +9,16 @@ import UIKit
 
 
 
+struct MainCharacteristics {
+
+    let name: String
+    let value: String
+   
+}
+
 
 enum SectionType {
-    case characteristics(rocketModel: Rocket?)
+    case characteristics(rocketModel: [MainCharacteristics])
     case test
 }
 
@@ -33,7 +40,11 @@ class RocketCollectionViewCell: UICollectionViewCell {
     
         //MARK: - Properties/Dependencies
     
-    var rocket: Rocket?
+    var rocket: Rocket? {
+        didSet {
+            configureTableView()
+        }
+    }
     
     
     var sections = [SectionType]()
@@ -45,8 +56,9 @@ class RocketCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.backgroundColor = .systemBackground
-        configureTableView()
+//        configureTableView()
         contentView.addSubview(rocketTableView)
+        registerCells()
         rocketTableView.delegate = self
         rocketTableView.dataSource = self
        
@@ -64,12 +76,26 @@ class RocketCollectionViewCell: UICollectionViewCell {
     }
     
     
-    
+        //MARK: - Configuration
     func configureTableView() {
+        
         print("----------just some print ----------")
-        self.sections.append(.characteristics(rocketModel: rocket))
+        guard let unwrappedRocket = rocket else { return }
+
+        print("----------unwrapped Rocket \(unwrappedRocket.name) ----------")
+        let mainCharacteristics: [MainCharacteristics] = [
+            .init(name: "Height", value: "\(String(describing: unwrappedRocket.height.meters))"),
+            .init(name: "Diameter", value: "\(String(describing: unwrappedRocket.diameter.meters))"),
+            .init(name: "Mass", value: "\(unwrappedRocket.mass.kg)")
+        ]
+        self.sections.append(.characteristics(rocketModel: mainCharacteristics))
+        
         self.sections.append(.test)
         print("configureTableView \(sections.count)")
+    }
+    
+    func registerCells() {
+        rocketTableView.register(MainCharacteristicsTableViewCell.self, forCellReuseIdentifier: MainCharacteristicsTableViewCell.identifier)
     }
     
 }
@@ -78,6 +104,7 @@ class RocketCollectionViewCell: UICollectionViewCell {
     //MARK: -  TableView Methods
 
 extension RocketCollectionViewCell: UITableViewDelegate, UITableViewDataSource {
+    
     
     func numberOfSections(in tableView: UITableView) -> Int {
         print("Number of sections: \(sections.count)")
@@ -123,30 +150,36 @@ extension RocketCollectionViewCell: UITableViewDelegate, UITableViewDataSource {
         guard let rocket = rocket else { return UITableViewCell() }
         let sectionType = sections[indexPath.section]
         
-        // Fix the shit below
         switch sectionType {
-        
-        case .characteristics:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell", for: indexPath)
+        case .characteristics(let mainCharacteristics):
+            let cell = tableView.dequeueReusableCell(withIdentifier: MainCharacteristicsTableViewCell.identifier, for: indexPath) as! MainCharacteristicsTableViewCell
             
-            cell.textLabel?.text = "hello"
-            
+            print("{}{}{}{}\(mainCharacteristics.count)")
+           
+            cell.configureCell(mainCharacteristics: mainCharacteristics)
+
             return cell
         case .test:
             let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell", for: indexPath)
             
             cell.textLabel?.text = "hello \(rocket.name)"
+            print("******tableViewCell***unwrappedRocket = \(rocket.name)")
             
             return cell
         }
         
-        
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell", for: indexPath)
-//        
-//        cell.textLabel?.text = "hello"
-//        
-//        return cell
+
     }
     
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let sectionType = sections[indexPath.section]
+        switch sectionType {
+        case .characteristics:
+            return 200
+        case .test:
+            return UITableView.automaticDimension
+        }
+    }
     
 }

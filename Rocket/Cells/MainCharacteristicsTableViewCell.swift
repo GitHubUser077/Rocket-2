@@ -7,25 +7,7 @@
 
 import UIKit
 
-struct MainCharacteristics {
 
-    let height: Diameter
-    let diameter: Diameter
-    let mass: Mass
-    let id: String
-
-    init(rocket: Rocket) {
-        self.height = rocket.height
-        self.diameter = rocket.diameter
-        self.mass = rocket.mass
-        self.id = rocket.id
-    }
-
-}
-
-struct Metrics {
-    
-}
 
 class MainCharacteristicsTableViewCell: UITableViewCell {
 
@@ -35,14 +17,32 @@ class MainCharacteristicsTableViewCell: UITableViewCell {
         //MARK: - Properties
     var rocket: Rocket?
     
-    var mainCharacteristics: MainCharacteristics?
+    var mainCharacteristics = [MainCharacteristics]()
     
-    var metrics = [Metrics]()
+
+        //MARK: - Views
+    
+    private let mainCharacteristicsCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.minimumInteritemSpacing = 5
+        layout.minimumLineSpacing = 5
+        layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .systemBackground
+        collectionView.register(MainCharacteristicsCollectionViewCell.self, forCellWithReuseIdentifier: MainCharacteristicsCollectionViewCell.identifier)
+        return collectionView
+    }()
+    
     
         //MARK: - init
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        contentView.backgroundColor = .systemBackground
+        contentView.addSubview(mainCharacteristicsCollectionView)
+        mainCharacteristicsCollectionView.delegate = self
+        mainCharacteristicsCollectionView.dataSource = self
         
     }
     
@@ -53,11 +53,42 @@ class MainCharacteristicsTableViewCell: UITableViewCell {
         //MARK: - Lifecycle
     override func layoutSubviews() {
         super.layoutSubviews()
+        mainCharacteristicsCollectionView.frame = contentView.bounds
     }
     
-    func configureCell(rocket: Rocket) {
-        mainCharacteristics = MainCharacteristics(rocket: rocket)
+    func configureCell(mainCharacteristics: [MainCharacteristics]) {
+        self.mainCharacteristics = mainCharacteristics
+        mainCharacteristicsCollectionView.reloadData()
     }
     
 
+}
+
+
+extension MainCharacteristicsTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        return mainCharacteristics.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        
+        let mainCharacteristic = mainCharacteristics[indexPath.row]
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCharacteristicsCollectionViewCell.identifier, for: indexPath) as! MainCharacteristicsCollectionViewCell
+        
+        
+        
+        cell.configure(with: mainCharacteristic)
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: contentView.frame.width, height: 200)
+    }
+    
 }
