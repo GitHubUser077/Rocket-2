@@ -10,15 +10,18 @@ import UIKit
 
 
 struct MainCharacteristics {
-
     let name: String
     let value: String
-   
 }
 
+struct GeneralInfo {
+    let name: String
+    let value: String
+}
 
 enum SectionType {
     case characteristics(rocketModel: [MainCharacteristics])
+    case generalInformation(generalInfoViewModels: [GeneralInfo])
     case test
 }
 
@@ -32,7 +35,7 @@ class RocketCollectionViewCell: UICollectionViewCell {
        let table = UITableView()
         table.register(UITableViewCell.self, forCellReuseIdentifier: "tableCell")
         let header = TableHeaderView()
-        header.frame = CGRect(x: 0, y: 0, width: table.frame.width, height: 100)
+        header.frame = CGRect(x: 0, y: 0, width: table.frame.width, height: 60)
         header.label.text = "Heavy Falcon"
         table.tableHeaderView = header
         return table
@@ -79,23 +82,33 @@ class RocketCollectionViewCell: UICollectionViewCell {
         //MARK: - Configuration
     func configureTableView() {
         
-        print("----------just some print ----------")
+ 
         guard let unwrappedRocket = rocket else { return }
-
-        print("----------unwrapped Rocket \(unwrappedRocket.name) ----------")
+       //mainCharacteristics
         let mainCharacteristics: [MainCharacteristics] = [
             .init(name: "Height", value: "\(String(describing: unwrappedRocket.height.meters))"),
             .init(name: "Diameter", value: "\(String(describing: unwrappedRocket.diameter.meters))"),
             .init(name: "Mass", value: "\(unwrappedRocket.mass.kg)")
         ]
+        
         self.sections.append(.characteristics(rocketModel: mainCharacteristics))
         
+        //generalInfo
+        let generalInfo: [GeneralInfo] = [
+            .init(name: "First flight", value: "\(unwrappedRocket.firstFlight)"),
+            .init(name: "Country", value: "\(unwrappedRocket.country)"),
+            .init(name: "Cost per launch", value: "\(unwrappedRocket.costPerLaunch)")
+        ]
+        self.sections.append(.generalInformation(generalInfoViewModels: generalInfo))
+        
+        //test
         self.sections.append(.test)
         print("configureTableView \(sections.count)")
     }
     
     func registerCells() {
         rocketTableView.register(MainCharacteristicsTableViewCell.self, forCellReuseIdentifier: MainCharacteristicsTableViewCell.identifier)
+        rocketTableView.register(GeneralInfoTableViewCell.self, forCellReuseIdentifier: GeneralInfoTableViewCell.identifier)
     }
     
 }
@@ -118,6 +131,8 @@ extension RocketCollectionViewCell: UITableViewDelegate, UITableViewDataSource {
         
         case .characteristics:
             return 1
+        case .generalInformation(let viewModels):
+            return viewModels.count
         case .test:
             return 3
         }
@@ -130,6 +145,8 @@ extension RocketCollectionViewCell: UITableViewDelegate, UITableViewDataSource {
         switch sectionType {
         case .characteristics:
             return nil
+        case .generalInformation:
+            return nil
         case .test:
             return "Test \(unwrappedRocket.name)"
         }
@@ -139,6 +156,8 @@ extension RocketCollectionViewCell: UITableViewDelegate, UITableViewDataSource {
         let sectionType = sections[section]
         switch sectionType {
         case .characteristics:
+            return 0
+        case .generalInformation:
             return 0
         case .test:
             return 30
@@ -159,6 +178,23 @@ extension RocketCollectionViewCell: UITableViewDelegate, UITableViewDataSource {
             cell.configureCell(mainCharacteristics: mainCharacteristics)
 
             return cell
+            
+            
+            
+        case .generalInformation(let viewModels):
+            
+            let generalInfo = viewModels[indexPath.row]
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: GeneralInfoTableViewCell.identifier, for: indexPath) as! GeneralInfoTableViewCell
+            
+            cell.configure(with: generalInfo)
+            
+            return UITableViewCell()
+            
+            
+            
+            
+            
         case .test:
             let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell", for: indexPath)
             
@@ -176,7 +212,9 @@ extension RocketCollectionViewCell: UITableViewDelegate, UITableViewDataSource {
         let sectionType = sections[indexPath.section]
         switch sectionType {
         case .characteristics:
-            return 200
+            return 100
+        case .generalInformation:
+            return 50
         case .test:
             return UITableView.automaticDimension
         }

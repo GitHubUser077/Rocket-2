@@ -25,6 +25,11 @@ class MainCharacteristicsCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        self.layer.cornerRadius = 8
+        self.layer.masksToBounds = true
+        
+        contentView.backgroundColor = .secondaryLabel
         contentView.addSubview(nameLabel)
         contentView.addSubview(valueLabel)
     }

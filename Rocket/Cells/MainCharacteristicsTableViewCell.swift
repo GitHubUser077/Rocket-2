@@ -88,7 +88,9 @@ extension MainCharacteristicsTableViewCell: UICollectionViewDelegate, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: contentView.frame.width, height: 200)
+        return CGSize(width: 150, height: 80)
     }
+    
+    
     
 }
