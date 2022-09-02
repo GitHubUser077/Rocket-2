@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		041DC97C28C1BD9800D89D9F /* TableHeader2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041DC97B28C1BD9800D89D9F /* TableHeader2.swift */; };
 		0478A99328B7C169005936CB /* OverallRocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0478A99228B7C169005936CB /* OverallRocket.swift */; };
 		0478A99628B7C1CD005936CB /* MainCharecteristics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0478A99528B7C1CD005936CB /* MainCharecteristics.swift */; };
 		0478A9A028BD2EA3005936CB /* MainCharacteristicsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0478A99F28BD2EA3005936CB /* MainCharacteristicsTableViewCell.swift */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		041DC97B28C1BD9800D89D9F /* TableHeader2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableHeader2.swift; sourceTree = "<group>"; };
 		0478A99228B7C169005936CB /* OverallRocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverallRocket.swift; sourceTree = "<group>"; };
 		0478A99528B7C1CD005936CB /* MainCharecteristics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCharecteristics.swift; sourceTree = "<group>"; };
 		0478A99F28BD2EA3005936CB /* MainCharacteristicsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainCharacteristicsTableViewCell.swift; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				04E56E1128B3FA2900218340 /* TableHeaderView.swift */,
+				041DC97B28C1BD9800D89D9F /* TableHeader2.swift */,
 			);
 			path = "Additional Views";
 			sourceTree = "<group>";
@@ -265,6 +268,7 @@
 			files = (
 				04E9348D28B2B6D200D905FE /* TestViewController.swift in Sources */,
 				0478A99628B7C1CD005936CB /* MainCharecteristics.swift in Sources */,
+				041DC97C28C1BD9800D89D9F /* TableHeader2.swift in Sources */,
 				0478A9A628BE7CB8005936CB /* MainCharacteristicsCollectionViewCell.swift in Sources */,
 				0478A99328B7C169005936CB /* OverallRocket.swift in Sources */,
 				04E9349128B36DF400D905FE /* APICaller.swift in Sources */,

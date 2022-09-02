@@ -38,11 +38,11 @@ class GeneralInfoTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        nameLabel.frame = CGRect(x: 10, y: 10, width: (contentView.frame.size.width)/2 - 40, height: contentView.frame.size.height - 20)
-        valueLabel.frame = CGRect(x: nameLabel.frame.width + 10, y: 10, width: (contentView.frame.size.width)/2 + 20, height: contentView.frame.size.height - 20)
+        nameLabel.frame = CGRect(x: 10, y: 10, width: (contentView.frame.size.width)/2 - 20, height: contentView.frame.size.height - 20)
+        valueLabel.frame = CGRect(x: nameLabel.frame.width + 10, y: 10, width: (contentView.frame.size.width)/2 , height: contentView.frame.size.height - 20)
     }
     
-    func configure(with viewModel: GeneralInfo) {
+    func configure(with viewModel: NameValueTableViewCell) {
         nameLabel.text = viewModel.name
         valueLabel.text = viewModel.value
     }

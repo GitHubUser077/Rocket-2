@@ -8,6 +8,18 @@
 import UIKit
 
 class TableHeaderView: UIView {
+    
+    let rocketImageView: UIImageView = {
+        let imageView = UIImageView()
+        
+        return imageView
+    }()
+    
+    let imageView: UIImageView = {
+       let imageView = UIImageView()
+        
+        return imageView
+    }()
 
     let label: UILabel = {
        let label = UILabel()
@@ -29,11 +41,17 @@ class TableHeaderView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .red
+        addSubview(rocketImageView)
+        addSubview(imageView)
         addSubview(label)
         addSubview(button)
         
         
         NSLayoutConstraint.activate([
+            rocketImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
+            rocketImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 0),
+            rocketImageView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: 0),
+            rocketImageView.heightAnchor.constraint(equalToConstant: 300),
             label.topAnchor.constraint(equalTo: self.topAnchor, constant: 15),
             label.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 15),
             button.topAnchor.constraint(equalTo: self.topAnchor, constant: 15),

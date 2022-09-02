@@ -30,6 +30,7 @@ class MainCharacteristicsTableViewCell: UITableViewCell {
         layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .systemBackground
+        collectionView.showsHorizontalScrollIndicator = false
         collectionView.register(MainCharacteristicsCollectionViewCell.self, forCellWithReuseIdentifier: MainCharacteristicsCollectionViewCell.identifier)
         return collectionView
     }()

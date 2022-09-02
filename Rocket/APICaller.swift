@@ -42,4 +42,23 @@ class APICaller {
         
     }
     
+    func fetchImage(imageUrlString: String, completion: @escaping (Data?) -> Void) {
+       
+        guard let url = URL(string: imageUrlString) else {
+            completion(nil)
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url) { (data, _, error) in
+            guard let data = data, error == nil else  {
+                completion(nil)
+                return
+            }
+            
+           completion(data)
+        }
+        task.resume()
+        
+    }
+    
 }
